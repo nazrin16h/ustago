@@ -14,7 +14,10 @@ const Profile = () => {
     { id: 1, name: "Elnur M.", rating: 5, text: "İşini çox səliqəli gördü, vaxtında gəldi.", date: "2 saat əvvəl" },
     { id: 2, name: "Fidan H.", rating: 5, text: "Mətbəxdə yaranan nasazlığı qısa müddətdə həll etdi.", date: "Dünən" },
     { id: 3, name: "Anar Q.", rating: 4, text: "Yaxşı ustadır, materialları özü alıb gətirdi.", date: "3 gün əvvəl" },
-    { id: 4, name: "Sevinc A.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" }
+    { id: 4, name: "Sevinc A.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" },
+    { id: 4, name: "Xanim S.", rating: 5, text: "Yaxşı ustadır,Problemi kökündən həll etdi.", date: "1 həftə əvvəl" },
+    { id: 4, name: "Cemil A.", rating: 5, text: "Problemi kqısa müddətdə həll etdi.", date: "1 həftə əvvəl" },
+    { id: 4, name: "Furkan E.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" }
   ]);
 
   const API_URL = "https://69bfc34f72ca04f3bcb92a0d.mockapi.io/category";
@@ -48,11 +51,21 @@ const Profile = () => {
     <div className="bg-[#f8fafc] min-h-screen font-sans text-slate-900 pb-20">
 
       {/* HEADER */}
-      <div className="relative h-48 md:h-64 w-full bg-slate-900">
-        <img src={user.portfolioimage1} className="w-full h-full object-cover opacity-40" alt="Cover" />
+      <div className="relative h-48 md:h-72 w-full bg-slate-900">
+        <img
+          src={user.portfolioimage1}
+          className="w-full h-full object-cover opacity-40"
+          alt="Work Background"
+        />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f8fafc] to-transparent"></div>
-        <div className="absolute top-6 left-4 right-4 max-w-6xl mx-auto flex justify-between">
-          <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white"><ChevronLeft size={24} /></button>
+        <div className="absolute top-6 left-4 right-4 max-w-6xl mx-auto flex justify-between items-center">
+          <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg">
+            <ChevronLeft size={24} />
+          </button>
+          <div className="flex gap-2">
+            <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg"><History size={20} /></button>
+            <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg"><MoreHorizontal size={24} /></button>
+          </div>
         </div>
       </div>
 
@@ -146,18 +159,46 @@ const Profile = () => {
             </div>
 
             {/* İş Nümunələri */}
+            {/* İş Nümunələri */}
             <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
               <h3 className="text-xl font-black mb-6">İş Nümunələri</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <img src={user.portfolioimage1} className="w-full h-48 object-cover rounded-2xl" alt="Work 1" />
-                <img src={user.portfolioimage2} className="w-full h-48 object-cover rounded-2xl" alt="Work 2" />
+
+                {/* İş 1 - Əvvəl */}
+                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                  <img
+                    src={user.portfolioimage1}
+                    className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]"
+                    alt="Work 1"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white font-black text-lg tracking-widest uppercase bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">
+                      Əvvəl
+                    </span>
+                  </div>
+                </div>
+
+                {/* İş 2 - Sonra */}
+                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                  <img
+                    src={user.portfolioimage2}
+                    className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]"
+                    alt="Work 2"
+                  />
+                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <span className="text-white font-black text-lg tracking-widest uppercase bg-orange-500/80 backdrop-blur-sm px-4 py-2 rounded-xl">
+                      Sonra
+                    </span>
+                  </div>
+                </div>
+
               </div>
             </div>
 
             {/* Ərazi və Zaman */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="bg-white rounded-[2rem] p-6 border border-slate-100 flex items-center gap-4">
-                <div className="w-12 h-12 bg-red-50 text-red-500 rounded-full flex items-center justify-center"><MapPin /></div>
+              <div className="bg-white  rounded-[2rem] p-6 border border-slate-100 flex items-center gap-4">
+                <div className="w-12 h-12  bg-red-50 text-red-500 rounded-full flex items-center justify-center"><MapPin /></div>
                 <div>
                   <p className="text-[10px] text-slate-400 font-bold uppercase">Ərazi</p>
                   <p className="font-bold">Bakı və Abşeron</p>
