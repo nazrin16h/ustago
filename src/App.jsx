@@ -1,8 +1,11 @@
-import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import { Home as HomeIcon, User, LayoutDashboard, CreditCard, Search, Plus } from 'lucide-react';
+import { BrowserRouter as Router, Routes, Route, NavLink, Link } from 'react-router-dom';
+import { Home as HomeIcon, User, CreditCard, Plus, Sparkles } from 'lucide-react';
+
+// Səhifə importları
 import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Checkout from './pages/Checkout';
+import AddElan from './pages/AddElan';
 
 function App() {
   return (
@@ -45,12 +48,20 @@ function App() {
           </Routes>
         </main>
 
-        {/* Mobil Bottom Navigation (Alt Menyu) */}
-        <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-sky-100 px-6 py-3 flex justify-between items-center z-50 rounded-t-[24px] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        {/* --- MOBİL ÜÇÜN ADD ELAN DÜYMƏSİ --- 
+            İstədiyin kimi aşağıda, sağ küncdə və narıncı rəngdə */}
+        <Link 
+          to="/add-elan" 
+          className="md:hidden fixed bottom-24 right-6 bg-orange-500 text-white p-4 rounded-full shadow-2xl shadow-orange-200 z-[60] active:scale-90 transition-transform"
+        >
+          <Plus size={28} strokeWidth={3} />
+        </Link>
 
-          <NavLink to="/" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
-          }>
+        {/* --- MOBİL BOTTOM NAVIGATION --- 
+            İkonlar aktiv olanda tam narıncı, stabil olanda isə daha tünd boz görünür */}
+        <nav className="md:hidden fixed bottom-0 left-0 right-0 bg-white border-t border-slate-100 px-8 py-4 flex justify-between items-center z-50 rounded-t-[30px] shadow-[0_-10px_40px_rgba(0,0,0,0.05)]">
+          
+          <NavLink to="/" className={({ isActive }) => `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-500 scale-110' : 'text-slate-500'}`}>
             <HomeIcon size={24} />
             <span className="text-[10px] font-black uppercase tracking-tighter">Ana Səhifə</span>
           </NavLink>
@@ -66,7 +77,6 @@ function App() {
           </NavLink>
 
         </nav>
-        <Footer/>
       </div>
     </Router>
   );

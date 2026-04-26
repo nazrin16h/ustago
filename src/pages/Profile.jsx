@@ -15,9 +15,9 @@ const Profile = () => {
     { id: 2, name: "Fidan H.", rating: 5, text: "Mətbəxdə yaranan nasazlığı qısa müddətdə həll etdi.", date: "Dünən" },
     { id: 3, name: "Anar Q.", rating: 4, text: "Yaxşı ustadır, materialları özü alıb gətirdi.", date: "3 gün əvvəl" },
     { id: 4, name: "Sevinc A.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" },
-    { id: 4, name: "Xanim S.", rating: 5, text: "Yaxşı ustadır,Problemi kökündən həll etdi.", date: "1 həftə əvvəl" },
-    { id: 4, name: "Cemil A.", rating: 5, text: "Problemi kqısa müddətdə həll etdi.", date: "1 həftə əvvəl" },
-    { id: 4, name: "Furkan E.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" }
+    { id: 5, name: "Xanim S.", rating: 4, text: "Yaxşı ustadır,Problemi kökündən həll etdi.", date: "1 həftə əvvəl" },
+    { id: 6, name: "Cemil A.", rating: 5, text: "Problemi kqısa müddətdə həll etdi.", date: "1 həftə əvvəl" },
+    { id: 7, name: "Furkan E.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" }
   ]);
 
   const API_URL = "https://69bfc34f72ca04f3bcb92a0d.mockapi.io/category";
@@ -75,7 +75,6 @@ const Profile = () => {
           {/* SOL TƏRƏF: Profil və Rəylər */}
           <div className="lg:col-span-4 space-y-6">
 
-            {/* Profil Kartı */}
             {/* LEFT COLUMN - Profile Card */}
             <div className="lg:col-span-4 space-y-6">
               <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 text-center relative overflow-hidden">

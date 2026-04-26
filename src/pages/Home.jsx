@@ -1,252 +1,272 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {
-  faSearch,
-  faUser,
-  faHouse,
-  faBroom,
-  faScrewdriverWrench,
-  faScissors,
-  faStethoscope,
-  faStar,
-} from "@fortawesome/free-solid-svg-icons";
-import { faHouzz } from "@fortawesome/free-brands-svg-icons";
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { 
+  Wrench, Zap, Grid3X3, Paintbrush2, Armchair, Wind, Layers, 
+  Star, ChevronRight, MapPin, Sparkles, ArrowLeft, Filter, 
+  CheckCircle2, ShieldCheck, Clock, Award 
+} from 'lucide-react';
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination, Autoplay, EffectFade } from "swiper/modules";
 
 // Swiper Styles
 import "swiper/css";
 import "swiper/css/pagination";
+import "swiper/css/effect-fade";
 
- export default function Home() {
+import { getMasters } from '../../javascript/panel';
+
+// Kateqoriya Məlumatları (Yenilənmiş Santexnika ikonu ilə)
+const categoryData = [
+  { name: 'Santexnika', icon: <Wrench size={22} className="text-blue-500" /> },
+  { name: 'Elektrik', icon: <Zap size={22} className="text-yellow-500" /> },
+  { name: 'Kafel-Metlax', icon: <Grid3X3 size={22} className="text-orange-500" /> },
+  { name: 'Malyar', icon: <Paintbrush2 size={22} className="text-pink-500" /> },
+  { name: 'Mebel', icon: <Armchair size={22} className="text-amber-700" /> },
+  { name: 'Kondisioner', icon: <Wind size={22} className="text-cyan-500" /> },
+  { name: 'Döşəmə', icon: <Layers size={22} className="text-stone-500" /> },
+];
+
+export default function SmartDashboard() {
+  const [allMasters, setAllMasters] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [minPrice, setMinPrice] = useState("");
+  const [maxPrice, setMaxPrice] = useState("");
+
+  const slides = [
+    {
+      title: "Evinizin Ustası, Sizin Rahatlığınız",
+      desc: "Təmir işlərində peşəkar yanaşma. İndi sifariş et, vaxtına qənaət et.",
+      img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2000", 
+      tag: "Peşəkar Xidmət",
+      icon: <Award className="text-orange-500" />
+    },
+    {
+      title: "Yüksək Keyfiyyət, Şəffaf Qiymət",
+      desc: "Gizli xərclər yoxdur. Qiyməti usta ilə danışmazdan əvvəl bil.",
+      img: "https://images.unsplash.com/photo-1621905251189-08b45d6a269e?q=80&w=2069",
+      tag: "Güvənli Ödəniş",
+      icon: <ShieldCheck className="text-orange-500" />
+    },
+    {
+      title: "7/24 Təcili Usta Xidməti",
+      desc: "Gözlənilməz texniki problemlər? Bizim ustalar hər an yanınızdadır.",
+      img: "https://images.unsplash.com/photo-1504148455328-c376907d081c?q=80&w=2070",
+      tag: "Sürətli Müdaxilə",
+      icon: <Clock className="text-orange-500" />
+    },
+    {
+      title: "Zəmanətli Təmir İşləri",
+      desc: "Görülən hər bir işə UstaGo tərəfindən keyfiyyət zəmanəti verilir.",
+      img: "https://images.unsplash.com/photo-1513694203232-719a280e022f?q=80&w=2069",
+      tag: "100% Zəmanət",
+      icon: <CheckCircle2 className="text-orange-500" />
+    }
+  ];
+
+  useEffect(() => {
+    getMasters().then(data => {
+      const sortedByRating = [...data].sort((a, b) => (b.rating || 0) - (a.rating || 0));
+      setAllMasters(sortedByRating);
+    });
+  }, []);
+
+  const filteredMasters = allMasters.filter(m => {
+    const matchesCategory = m.category === selectedCategory;
+    const price = parseFloat(m.price);
+    const matchesMin = minPrice === "" || price >= parseFloat(minPrice);
+    const matchesMax = maxPrice === "" || price <= parseFloat(maxPrice);
+    return matchesCategory && matchesMin && matchesMax;
+  });
+
   return (
-    <div className="pt-10 space-y-10 max-w-[1400px] mx-auto">
-      <div className="w-full h-60 md:h-[450px] px-4">
-        <Swiper
-          spaceBetween={30}
-          centeredSlides={true}
-          autoplay={{
-            delay: 3000,
-            disableOnInteraction: false,
-          }}
-          pagination={{
-            clickable: true,
-          }}
-          modules={[Pagination, Autoplay]}
-          className="mySwiper h-full rounded-[30px] overflow-hidden shadow-md"
-        >
-          {/* Slide 1 */}
-          <SwiperSlide className="bg-[url('/public/slider-foto-1.jpeg')] bg-cover bg-center flex items-center justify-between p-8 md:p-20">
-            <div className="space-y-2 md:space-y-4">
-              <h2 className="text-[#1b1b1b] text-xl md:text-5xl font-bold">Up to 50% Off!</h2>
-              <p className="text-[#1b1b1b] text-[14px] md:text-xl opacity-90 font-medium">
-                Book Now to Avail the Offer
-              </p>
-              <button className="bg-[#fac406] text-white px-6 py-2 md:px-10 md:py-4 md:text-lg rounded-3xl font-bold mt-4 shadow-sm hover:scale-105 transition-transform">
-                Book Service
-              </button>
-            </div>
-          </SwiperSlide>
-
-          {/* Slide 2*/}
-          <SwiperSlide className="bg-[url('/public/slider-foto-2.avif')] bg-cover bg-center flex items-center justify-between p-8 md:p-20">
-            <div className="space-y-2 md:space-y-4">
-              <h2 className="text-[#1b1b1b] text-xl md:text-5xl font-bold">Beat the Heat!</h2>
-              <p className="text-[#1b1b1b] text-[14px] md:text-xl opacity-90 font-medium">
-                Pro AC Service
-              </p>
-              <button className="bg-[#fac406] text-white px-6 py-2 md:px-10 md:py-4 md:text-lg rounded-3xl font-bold mt-4 shadow-sm hover:scale-105 transition-transform">
-                Book Service
-              </button>
-            </div>
-          </SwiperSlide>
-
-          {/* Slide 3*/}
-          <SwiperSlide className="bg-[url('/public/slider-foto-3.jpg')] bg-cover bg-center flex items-center justify-between p-8 md:p-20">
-            <div className="space-y-2 md:space-y-4">
-              <h2 className="text-[#1b1b1b] text-xl md:text-5xl font-bold">No More Leaks!</h2>
-              <p className="text-[#1b1b1b] text-[14px] md:text-xl opacity-90 font-medium">
-                Expert Plumbing Solutions
-              </p>
-              <button className="bg-[#fac406] text-white px-6 py-2 md:px-10 md:py-4 md:text-lg rounded-3xl font-bold mt-4 shadow-sm hover:scale-105 transition-transform">
-                Book Service
-              </button>
-            </div>
-          </SwiperSlide>
-        </Swiper>
-      </div>
-
-      {/* Category */}
-      <div className="px-4">
-        <h3 className="text-xl md:text-2xl font-semibold pb-3 md:pb-6">Category</h3>
-        <div className="flex flex-wrap justify-between items-center gap-5 md:gap-10">
-          <div className="flex flex-col items-center">
-            <span className="border transition-transform hover:scale-110 cursor-pointer border-[#feba4d] bg-[#feba4d] flex justify-center items-center w-10 h-10 md:w-20 md:h-20 rounded-[50%]">
-              <FontAwesomeIcon className="text-white md:text-2xl" icon={faHouzz} />
-            </span>
-            <p className="text-[14px] md:text-lg mt-2">Interior</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="border transition-transform hover:scale-110 cursor-pointer border-[#c1d234] bg-[#c1d234] flex justify-center items-center w-10 h-10 md:w-20 md:h-20 rounded-[50%]">
-              <FontAwesomeIcon className="text-white md:text-2xl" icon={faBroom} />
-            </span>
-            <p className="text-[14px] md:text-lg mt-2">Cleanning</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="border transition-transform hover:scale-110 cursor-pointer border-[#fdce05] bg-[#fdce05] flex justify-center items-center w-10 h-10 md:w-20 md:h-20 rounded-[50%]">
-              <FontAwesomeIcon className="text-white md:text-2xl" icon={faScrewdriverWrench} />
-            </span>
-            <p className="text-[14px] md:text-lg mt-2">Handyman</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="border transition-transform hover:scale-110 cursor-pointer border-[#14a3df] bg-[#14a3df] flex justify-center items-center w-10 h-10 md:w-20 md:h-20 rounded-[50%]">
-              <FontAwesomeIcon className="text-white md:text-2xl" icon={faStethoscope} />
-            </span>
-            <p className="text-[14px] md:text-lg mt-2">Healthcare</p>
-          </div>
-          <div className="flex flex-col items-center">
-            <span className="border transition-transform hover:scale-110 cursor-pointer border-[#8c7764] bg-[#8c7764] flex justify-center items-center w-10 h-10 md:w-20 md:h-20 rounded-[50%]">
-              <FontAwesomeIcon className="text-white md:text-2xl" icon={faScissors} />
-            </span>
-            <p className="text-[14px] md:text-lg mt-2">Beauty</p>
-          </div>
-        </div>
-      </div>
-
-      {/* Popular Service */}
-      <div className="px-4">
-        <h3 className="text-xl md:text-2xl font-semibold pb-3 md:pb-6">Popular Service</h3>
+    <div className="min-h-screen bg-[#FDFDFD] pb-24 px-4 md:px-10 font-sans">
+      <div className="max-w-6xl mx-auto space-y-12">
         
-        <div 
-          className="flex flex-nowrap overflow-x-auto gap-5 md:gap-8 px-4 pb-5"
-          style={{ 
-            scrollbarWidth: 'none', 
-            msOverflowStyle: 'none' 
-          }}
-        >
-          <style>{`
-            .flex-nowrap::-webkit-scrollbar {
-              display: none;
-            }
-          `}</style>
+        {/* --- MÜASİR NARINCI SLIDER --- */}
+        {!selectedCategory && (
+          <div className="pt-8">
+            <Swiper
+              effect={'fade'}
+              spaceBetween={0}
+              autoplay={{ delay: 4500, disableOnInteraction: false }}
+              pagination={{ clickable: true, dynamicBullets: true }}
+              modules={[Pagination, Autoplay, EffectFade]}
+              className="h-[350px] md:h-[450px] rounded-[3rem] overflow-hidden shadow-2xl shadow-orange-100"
+            >
+              {slides.map((slide, index) => (
+                <SwiperSlide key={index}>
+                  <div className="relative w-full h-full flex items-center bg-slate-900">
+                    <div className="absolute inset-0 opacity-60">
+                      <img src={slide.img} className="w-full h-full object-cover" alt="bg" />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
+                    
+                    <div className="relative z-10 px-8 md:px-20 max-w-2xl space-y-6">
+                      <motion.div 
+                        initial={{ opacity: 0, x: -20 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        className="flex items-center gap-2 bg-orange-500/20 backdrop-blur-md border border-orange-500/30 px-4 py-2 rounded-full w-fit"
+                      >
+                        {slide.icon}
+                        <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">{slide.tag}</span>
+                      </motion.div>
+                      
+                      <motion.h2 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        className="text-white text-3xl md:text-5xl font-black leading-tight"
+                      >
+                        {slide.title}
+                      </motion.h2>
+                      
+                      <motion.p 
+                        initial={{ opacity: 0 }}
+                        whileInView={{ opacity: 1 }}
+                        className="text-slate-300 text-sm md:text-lg font-medium max-w-md"
+                      >
+                        {slide.desc}
+                      </motion.p>
 
-          <div className="border-0 flex-none w-64 md:w-80 bg-white rounded-3xl overflow-hidden px-4 py-5 shadow-sm">
-            <img className="rounded-3xl h-40 md:h-52 w-full object-cover" src="/public/foto-1.jpeg" alt="foto" />
-            <div className="flex flex-col gap-2">
-              <div>
-                <h5 className="text-[18px] md:text-[20px] font-semibold pt-5">
-                  AC Cleanning at Home
-                </h5>
-                <p className="text-[#6d6d6d] text-[15px] md:text-[16px]">
-                  Clean AC, save energy
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <h6 className="text-[18px] md:text-[20px] font-semibold">
-                  $468 <span className="text-[14px] text-[#8b8b8b]">/hour</span>
-                </h6>
-                <div className="flex items-center gap-1">
-                  <FontAwesomeIcon className="text-[#fbc128]" icon={faStar} />
-                  <p className="text-[18px] md:text-[20px] font-semibold">4.7</p>
-                </div>
-              </div>
-            </div>
+                      <button className="bg-orange-500 hover:bg-orange-600 text-white px-8 py-3.5 rounded-2xl font-black text-sm transition-all shadow-lg shadow-orange-500/40 active:scale-95">
+                        Xidmətləri Kəşf Et
+                      </button>
+                    </div>
+                  </div>
+                </SwiperSlide>
+              ))}
+            </Swiper>
           </div>
+        )}
 
-          <div className="border-0 flex-none w-64 md:w-80 bg-white rounded-3xl overflow-hidden px-4 py-5 shadow-sm">
-            <img className="rounded-3xl h-40 md:h-52 w-full object-cover" src="/public/foto-2.webp" alt="foto" />
-            <div className="flex flex-col gap-2">
-              <div>
-                <h5 className="text-[18px] md:text-[20px] font-semibold pt-5">
-                  AC Cleanning at Home
-                </h5>
-                <p className="text-[#6d6d6d] text-[15px] md:text-[16px]">
-                  Clean AC, save energy
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <h6 className="text-[18px] md:text-[20px] font-semibold">
-                  $468 <span className="text-[14px] text-[#8b8b8b]">/hour</span>
-                </h6>
-                <div className="flex items-center gap-1">
-                  <FontAwesomeIcon className="text-[#fbc128]" icon={faStar} />
-                  <p className="text-[18px] md:text-[20px] font-semibold">4.7</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-0 flex-none w-64 md:w-80 bg-white rounded-3xl overflow-hidden px-4 py-5 shadow-sm">
-            <img className="rounded-3xl h-40 md:h-52 w-full object-cover" src="/public/foto-3.jpeg" alt="foto" />
-            <div className="flex flex-col gap-2">
-              <div>
-                <h5 className="text-[18px] md:text-[20px] font-semibold pt-5">
-                  AC Cleanning at Home
-                </h5>
-                <p className="text-[#6d6d6d] text-[15px] md:text-[16px]">
-                  Clean AC, save energy
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <h6 className="text-[18px] md:text-[20px] font-semibold">
-                  $468 <span className="text-[14px] text-[#8b8b8b]">/hour</span>
-                </h6>
-                <div className="flex items-center gap-1">
-                  <FontAwesomeIcon className="text-[#fbc128]" icon={faStar} />
-                  <p className="text-[18px] md:text-[20px] font-semibold">4.7</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-0 flex-none w-64 md:w-80 bg-white rounded-3xl overflow-hidden px-4 py-5 shadow-sm">
-            <img className="rounded-3xl h-40 md:h-52 w-full object-cover" src="/public/foto-4.jpg" alt="foto" />
-            <div className="flex flex-col gap-2">
-              <div>
-                <h5 className="text-[18px] md:text-[20px] font-semibold pt-5">
-                  AC Cleanning at Home
-                </h5>
-                <p className="text-[#6d6d6d] text-[15px] md:text-[16px]">
-                  Clean AC, save energy
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <h6 className="text-[18px] md:text-[20px] font-semibold">
-                  $468 <span className="text-[14px] text-[#8b8b8b]">/hour</span>
-                </h6>
-                <div className="flex items-center gap-1">
-                  <FontAwesomeIcon className="text-[#fbc128]" icon={faStar} />
-                  <p className="text-[18px] md:text-[20px] font-semibold">4.7</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <div className="border-0 flex-none w-64 md:w-80 bg-white rounded-3xl overflow-hidden px-4 py-5 shadow-sm">
-            <img className="rounded-3xl h-40 md:h-52 w-full object-cover" src="/public/foto-5.jpg" alt="foto" />
-            <div className="flex flex-col gap-2">
-              <div>
-                <h5 className="text-[18px] md:text-[20px] font-semibold pt-5">
-                  AC Cleanning at Home
-                </h5>
-                <p className="text-[#6d6d6d] text-[15px] md:text-[16px]">
-                  Clean AC, save energy
-                </p>
-              </div>
-              <div className="flex justify-between items-center">
-                <h6 className="text-[18px] md:text-[20px] font-semibold">
-                  $468 <span className="text-[14px] text-[#8b8b8b]">/hour</span>
-                </h6>
-                <div className="flex items-center gap-1">
-                  <FontAwesomeIcon className="text-[#fbc128]" icon={faStar} />
-                  <p className="text-[18px] md:text-[20px] font-semibold">4.7</p>
-                </div>
-              </div>
-            </div>
-          </div>
-
+        {/* --- LOGO & HEADER --- */}
+        <div className="text-center">
+          <motion.div 
+            initial={{ scale: 0.9 }} 
+            animate={{ scale: 1 }}
+            className="inline-flex items-center gap-2 bg-orange-50 px-6 py-2 rounded-full mb-4 shadow-sm"
+          >
+            <Sparkles className="text-orange-500" size={18} />
+            <span className="text-orange-600 font-black italic text-xl tracking-tight">UstaGo</span>
+          </motion.div>
+          <p className="text-slate-400 font-bold uppercase text-[10px] tracking-[5px] ">
+            {selectedCategory ? `${selectedCategory} Bölməsi` : "Eviniz üçün Peşəkar Həllər"}
+          </p>
         </div>
+
+        {/* --- KATEQORİYA SEÇİMİ --- */}
+        {!selectedCategory && (
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-5">
+            {categoryData.map((cat) => (
+              <motion.div
+                key={cat.name}
+                whileHover={{ y: -8, scale: 1.02 }}
+                onClick={() => setSelectedCategory(cat.name)}
+                className="bg-white p-7 rounded-[35px] shadow-[0_10px_30px_rgba(0,0,0,0.03)] flex flex-col items-center gap-4 cursor-pointer border-2 border-transparent hover:border-orange-500 transition-all group"
+              >
+                <div className="w-14 h-14 bg-slate-50 rounded-2xl flex items-center justify-center group-hover:bg-orange-50 transition-all duration-300">
+                  {cat.icon}
+                </div>
+                <span className="text-[12px] font-black text-slate-700 text-center group-hover:text-orange-600 transition-colors">
+                  {cat.name}
+                </span>
+              </motion.div>
+            ))}
+          </div>
+        )}
+
+        {/* --- USTA SİYAHiSİ & FİLTER --- */}
+        {selectedCategory && (
+          <div className="space-y-8">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-5 rounded-[30px] shadow-sm border border-slate-100">
+              <button 
+                onClick={() => { setSelectedCategory(null); setMinPrice(""); setMaxPrice(""); }}
+                className="flex items-center gap-2 text-slate-400 font-black hover:text-orange-500 transition-colors text-[11px] tracking-widest"
+              >
+                <ArrowLeft size={18} /> GERİ QAYIT
+              </button>
+
+              <div className="flex items-center gap-4">
+                <div className="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-2xl border border-slate-100 focus-within:border-orange-300 transition-all">
+                  <span className="text-[10px] font-black text-orange-500">AZN</span>
+                  <input 
+                    type="number" 
+                    placeholder="Min" 
+                    value={minPrice}
+                    onChange={(e) => setMinPrice(e.target.value)}
+                    className="w-16 bg-transparent outline-none text-sm font-black text-slate-800"
+                  />
+                </div>
+                <div className="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-2xl border border-slate-100 focus-within:border-orange-300 transition-all">
+                  <span className="text-[10px] font-black text-orange-500 text-right">AZN</span>
+                  <input 
+                    type="number" 
+                    placeholder="Max" 
+                    value={maxPrice}
+                    onChange={(e) => setMaxPrice(e.target.value)}
+                    className="w-16 bg-transparent outline-none text-sm font-black text-slate-800"
+                  />
+                </div>
+                <div className="p-3 bg-orange-500 text-white rounded-2xl shadow-lg shadow-orange-200">
+                  <Filter size={18} />
+                </div>
+              </div>
+            </div>
+
+            <motion.div layout className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-6">
+              <AnimatePresence mode="popLayout">
+                {filteredMasters.map(master => (
+                  <UstaCard key={master.id} master={master} />
+                ))}
+              </AnimatePresence>
+            </motion.div>
+          </div>
+        )}
       </div>
     </div>
+  );
+}
+
+function UstaCard({ master }) {
+  return (
+    <motion.div
+      layout
+      initial={{ opacity: 0, scale: 0.9 }}
+      animate={{ opacity: 1, scale: 1 }}
+      exit={{ opacity: 0, scale: 0.9 }}
+      className="bg-white rounded-[32px] p-3.5 shadow-sm border border-slate-100 group hover:shadow-2xl hover:shadow-orange-100 transition-all duration-500 flex flex-col"
+    >
+      <div className="relative aspect-square rounded-[26px] overflow-hidden mb-4">
+        <img 
+          src={master?.profilimage} 
+          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
+          alt="" 
+        />
+        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm border border-orange-50">
+          <Star size={11} className="text-orange-500 fill-orange-500" />
+          <span className="text-[11px] font-black text-slate-800">{master?.rating || "5.0"}</span>
+        </div>
+      </div>
+
+      <div className="px-2 flex-1">
+        <h3 className="text-[14px] font-black text-orange-600 leading-tight mb-1 truncate ">
+          {master?.fullname}
+        </h3>
+        <div className="flex items-center gap-1 text-slate-400 text-[9px] font-bold uppercase tracking-tight mb-4">
+          <MapPin size={11} className="text-orange-400" /> {master?.address || "BAKI"}
+        </div>
+      </div>
+
+      <div className="bg-slate-50 p-3 rounded-[22px] flex justify-between items-center group-hover:bg-orange-500 transition-all duration-500 mt-auto">
+        <div className="flex flex-col">
+          <span className="text-[8px] text-slate-400 font-black uppercase group-hover:text-orange-100">SAATLIQ</span>
+          <span className="text-[14px] font-black text-slate-900 group-hover:text-white leading-none">
+            {master?.price} 
+          </span>
+        </div>
+        <button className="bg-white text-orange-600 p-2 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+          <ChevronRight size={16} />
+        </button>
+      </div>
+    </motion.div>
   );
 }
