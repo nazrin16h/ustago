@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Checkout from './pages/Checkout';
 import AddElan from './pages/AddElan';
+import Footer from './pages/Footer';
 
 function App() {
   return (
@@ -77,6 +78,7 @@ function App() {
           </NavLink>
 
         </nav>
+        <Footer/>
       </div>
     </Router>
   );
