@@ -50,11 +50,11 @@ export default function PremiumEscrow() {
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }}
             className="space-y-4"
           >
-            <div className="inline-flex items-center gap-2 bg-blue-100 px-4 py-2 rounded-full text-blue-700 text-xs font-black uppercase tracking-widest">
+            <div className="inline-flex items-center gap-2 bg-orange-100 px-4 py-2 rounded-full text-orange-700 text-xs font-black uppercase tracking-widest">
               <Sparkles size={14} /> 100% Təhlükəsiz Sistem
             </div>
             <h1 className="text-5xl font-black text-[#0d1e4c] leading-[1.1]">
-              Vəsaitiniz Bizimlə <br /> <span className="text-blue-600 underline decoration-emerald-400">Güvəndədir.</span>
+              Vəsaitiniz Bizimlə <br /> <span className="text-orange-600 ">Güvəndədir!</span>
             </h1>
             <p className="text-gray-500 text-lg max-w-lg">
               UstaGo Escrow sistemi ilə ödəniş edin, iş təhvil verilənə qədər pulunuzu biz qoruyaq.
@@ -95,8 +95,8 @@ export default function PremiumEscrow() {
                 <div className="text-xl tracking-[4px] relative z-10 font-mono">**** **** **** 8842</div>
                 <div className="flex justify-between items-end relative z-10">
                   <div>
-                    <div className="text-[8px] uppercase opacity-50">Kart Sahibi</div>
-                    <div className="text-xs font-bold uppercase">UstaGo İstifadəçi</div>
+                    <div className="text-[14px]  opacity-50">KART SAHİBİ</div>
+                    
                   </div>
                   <div className="text-xs font-bold">09 / 28</div>
                 </div>

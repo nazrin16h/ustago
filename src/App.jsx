@@ -1,8 +1,7 @@
 import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-dom';
-import { Home as HomeIcon, User, LayoutDashboard, CreditCard, Search } from 'lucide-react';
+import { Home as HomeIcon, User, LayoutDashboard, CreditCard, Search, Plus } from 'lucide-react';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
 
 function App() {
@@ -26,7 +25,6 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </main>
@@ -35,14 +33,14 @@ function App() {
         <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-sky-100 px-6 py-3 flex justify-between items-center z-50 rounded-t-[24px] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
 
           <NavLink to="/" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <HomeIcon size={24} />
             <span className="text-[10px] font-medium">Ana Səhifə</span>
           </NavLink>
 
           <NavLink to="/dashboard" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <LayoutDashboard size={24} />
             <span className="text-[10px] font-medium">Panel</span>
@@ -50,13 +48,13 @@ function App() {
 
           {/* Ortadakı xüsusi düymə (Məsələn: Sifariş et və ya Axtar) */}
           <div className="relative -mt-10">
-            <div className="bg-sky-500 p-4 rounded-full shadow-lg shadow-sky-200 text-white border-4 border-white active:scale-95 transition-transform">
-              <Search size={28} />
+            <div className="bg-orange-500 p-4 rounded-full shadow-lg shadow-sky-200 text-white border-4 border-white active:scale-95 transition-transform">
+              <Plus size={28} />
             </div>
           </div>
 
           <NavLink to="/checkout" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <CreditCard size={24} />
             <span className="text-[10px] font-medium">Ödəniş</span>
