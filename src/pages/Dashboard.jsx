@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Search, Star, ChevronRight, MapPin, Banknote, LayoutGrid } from 'lucide-react';
-import { getMasters } from '../../javascript/panel'; 
+import { getMasters } from '../../javascript/panel';
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -56,10 +56,10 @@ export default function SmartDashboard() {
 
   return (
     <div className="min-h-screen bg-[#F4F7FA] pb-20 pt-10 px-4 md:px-8">
-      
+
       {/* FILTER PANEL */}
       <div className="max-w-7xl mx-auto mb-10">
-        <motion.div 
+        <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           className="bg-white p-5 rounded-[30px]  border shadow-[0_0_5px_#00a6f4] border-gray-100 flex flex-col gap-5"
@@ -71,15 +71,15 @@ export default function SmartDashboard() {
                 type="text"
                 placeholder="Axtar..."
                 className="w-full bg-gray-50 border-none p-3.5 pl-11 rounded-xl outline-none focus:ring-2 ring-blue-400 text-sm font-medium"
-                onChange={(e) => setFilters({...filters, search: e.target.value})}
+                onChange={(e) => setFilters({ ...filters, search: e.target.value })}
               />
             </div>
-            
+
             <div className="relative">
               <LayoutGrid className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
-              <select 
+              <select
                 className="w-full bg-gray-50 p-3.5 pl-11 rounded-xl outline-none cursor-pointer appearance-none text-sm font-semibold text-gray-600"
-                onChange={(e) => setFilters({...filters, category: e.target.value})}
+                onChange={(e) => setFilters({ ...filters, category: e.target.value })}
               >
                 {categories.map(c => <option key={c} value={c}>{c}</option>)}
               </select>
@@ -87,9 +87,9 @@ export default function SmartDashboard() {
 
             <div className="relative">
               <MapPin className="absolute left-4 top-1/2 -translate-y-1/2 text-red-400" size={16} />
-              <select 
+              <select
                 className="w-full bg-gray-50 p-3.5 pl-11 rounded-xl outline-none cursor-pointer appearance-none text-sm font-semibold text-gray-600"
-                onChange={(e) => setFilters({...filters, location: e.target.value})}
+                onChange={(e) => setFilters({ ...filters, location: e.target.value })}
               >
                 {locations.map(l => <option key={l} value={l}>{l}</option>)}
               </select>
@@ -102,16 +102,16 @@ export default function SmartDashboard() {
               <Banknote className="text-green-500" size={18} />
               <span className="text-xs font-bold text-gray-600">Qiymət:</span>
             </div>
-            
+
             <div className="flex flex-row w-full gap-8">
               <div className="flex-1">
                 <div className="flex justify-between items-center mb-1">
                   <span className="text-[9px] font-bold text-orange-500 uppercase">Min</span>
                   <span className="text-[10px] font-bold text-gray-700">{filters.minPrice} AZN</span>
                 </div>
-                <input 
+                <input
                   type="range" min="0" max="200" step="5" value={filters.minPrice}
-                  onChange={(e) => setFilters({...filters, minPrice: Number(e.target.value)})}
+                  onChange={(e) => setFilters({ ...filters, minPrice: Number(e.target.value) })}
                   className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-blue-500"
                 />
               </div>
@@ -121,9 +121,9 @@ export default function SmartDashboard() {
                   <span className="text-[9px] font-bold text-orange-500 uppercase">Max</span>
                   <span className="text-[10px] font-bold text-gray-700">{filters.maxPrice} AZN</span>
                 </div>
-                <input 
+                <input
                   type="range" min="0" max="1000" step="10" value={filters.maxPrice}
-                  onChange={(e) => setFilters({...filters, maxPrice: Number(e.target.value)})}
+                  onChange={(e) => setFilters({ ...filters, maxPrice: Number(e.target.value) })}
                   className="w-full h-1 bg-gray-200 rounded-lg appearance-none cursor-pointer accent-orange-500"
                 />
               </div>
@@ -139,7 +139,7 @@ export default function SmartDashboard() {
             {[1, 2, 3, 4, 5].map(i => <div key={i} className="h-64 bg-white animate-pulse rounded-[20px]" />)}
           </div>
         ) : (
-          <motion.div 
+          <motion.div
             variants={containerVariants} initial="hidden" animate="visible"
             className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4"
           >
@@ -164,8 +164,8 @@ function UstaCard({ master }) {
     >
       {/* ŞƏKİL BÖLMƏSİ - Daha portret (3/4) və baş hissəyə fokus */}
       <div className="relative aspect-[3/4] w-full h-[230px] rounded-[18px] overflow-hidden mb-3 bg-gray-100 border border-gray-100">
-        <img 
-          src={master?.profilimage} 
+        <img
+          src={master?.profilimage}
           className="w-full h-[230px] object-cover object-top transition-transform duration-500 group-hover:scale-105"
           alt={master?.fullname}
           onError={(e) => {
@@ -188,16 +188,16 @@ function UstaCard({ master }) {
             <span className="text-[10px] font-black">{master?.rating || "5.0"}</span>
           </div>
         </div>
-        
+
         <h3 className="text-[13px] font-bold text-gray-800 mb-3 line-clamp-1 group-hover:text-blue-600 transition-colors">
           {master?.fullname}
         </h3>
-        
+
         <div className="mt-auto flex items-center justify-between bg-blue-50/50 rounded-xl p-2 group-hover:bg-orange-500 transition-all duration-300">
           <div className="text-left">
             <p className="text-[7px] text-gray-400 font-bold uppercase group-hover:text-white transition-colors">Qiymət</p>
             <span className="text-[11px] font-extrabold text-blue-700 group-hover:text-white transition-colors">
-               {master?.price}
+              {master?.price}
             </span>
           </div>
           <button className="bg-white text-blue-600 p-1.5 rounded-lg shadow-sm group-hover:scale-110 transition-transform">

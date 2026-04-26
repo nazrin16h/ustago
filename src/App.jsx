@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Routes, Route, NavLink } from 'react-router-do
 import { Home as HomeIcon, User, LayoutDashboard, CreditCard, Search, Plus } from 'lucide-react';
 import Home from './pages/Home';
 import Profile from './pages/Profile';
-import Dashboard from './pages/Dashboard';
 import Checkout from './pages/Checkout';
 
 function App() {
@@ -26,23 +25,22 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/profile" element={<Profile />} />
-            <Route path="/dashboard" element={<Dashboard />} />
             <Route path="/checkout" element={<Checkout />} />
           </Routes>
         </main>
 
         {/* Mobil Bottom Navigation (Alt Menyu) */}
-        <nav className="fixed lg:hidden  bottom-0 left-0 right-0 bg-white border-t border-sky-100 px-6 py-3 flex justify-between items-center z-50 rounded-t-[24px] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
+        <nav className="fixed   bottom-0 left-0 right-0 bg-white border-t border-sky-100 px-6 py-3 flex justify-between items-center z-50 rounded-t-[24px] shadow-[0_-4px_20px_rgba(0,0,0,0.05)]">
 
           <NavLink to="/" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <HomeIcon size={24} />
             <span className="text-[10px] font-medium">Ana Səhifə</span>
           </NavLink>
 
           <NavLink to="/dashboard" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <LayoutDashboard size={24} />
             <span className="text-[10px] font-medium">Panel</span>
@@ -56,7 +54,7 @@ function App() {
           </div>
 
           <NavLink to="/checkout" className={({ isActive }) =>
-            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-sky-600 scale-110' : 'text-gray-400'}`
+            `flex flex-col items-center gap-1 transition-all ${isActive ? 'text-orange-600 scale-110' : 'text-gray-400'}`
           }>
             <CreditCard size={24} />
             <span className="text-[10px] font-medium">Ödəniş</span>
