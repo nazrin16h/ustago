@@ -46,6 +46,8 @@ function App() {
             <Route path="/profile" element={<Profile />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/add-elan" element={<AddElan />} />
+
+            <Route path="/masters/:id" element={<Profile />} />
           </Routes>
         </main>
 
