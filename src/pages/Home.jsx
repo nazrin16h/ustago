@@ -288,5 +288,6 @@ function UstaCard({ master }) {
         </div>
       </Link>
     </motion.div>
+    
   );
 }

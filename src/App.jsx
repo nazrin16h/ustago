@@ -7,6 +7,7 @@ import Profile from './pages/Profile';
 import Checkout from './pages/Checkout';
 import AddElan from './pages/AddElan';
 import Footer from './pages/Footer';
+import SmartMatch from './pages/SmartMatch';
 
 function App() {
   return (
@@ -80,6 +81,7 @@ function App() {
           </NavLink>
 
         </nav>
+        <SmartMatch/>
         <Footer/>
       </div>
     </Router>
