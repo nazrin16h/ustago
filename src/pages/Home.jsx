@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { useNavigate } from "react-router-dom";
 import { 
   Wrench, Zap, Grid3X3, Paintbrush2, Armchair, Wind, Layers, 
   Star, ChevronRight, MapPin, Sparkles, ArrowLeft, Filter, 
@@ -15,6 +14,8 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 import { getMasters } from '../../javascript/panel';
+import { Link } from 'react-router-dom';
+
 
 // Kateqoriya Məlumatları (Yenilənmiş Santexnika ikonu ilə)
 const categoryData = [
@@ -37,7 +38,7 @@ export default function SmartDashboard() {
     {
       title: "Evinizin Ustası, Sizin Rahatlığınız",
       desc: "Təmir işlərində peşəkar yanaşma. İndi sifariş et, vaxtına qənaət et.",
-      img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2000", 
+      img: "https://images.unsplash.com/photo-1581244277943-fe4a9c777189?q=80&w=2000",
       tag: "Peşəkar Xidmət",
       icon: <Award className="text-orange-500" />
     },
@@ -82,7 +83,7 @@ export default function SmartDashboard() {
   return (
     <div className="min-h-screen bg-[#FDFDFD] pb-24 px-4 md:px-10 font-sans">
       <div className="max-w-6xl mx-auto space-y-12">
-        
+
         {/* --- MÜASİR NARINCI SLIDER --- */}
         {!selectedCategory && (
           <div className="pt-8">
@@ -101,9 +102,9 @@ export default function SmartDashboard() {
                       <img src={slide.img} className="w-full h-full object-cover" alt="bg" />
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-r from-black via-black/60 to-transparent" />
-                    
+
                     <div className="relative z-10 px-8 md:px-20 max-w-2xl space-y-6">
-                      <motion.div 
+                      <motion.div
                         initial={{ opacity: 0, x: -20 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         className="flex items-center gap-2 bg-orange-500/20 backdrop-blur-md border border-orange-500/30 px-4 py-2 rounded-full w-fit"
@@ -111,16 +112,16 @@ export default function SmartDashboard() {
                         {slide.icon}
                         <span className="text-orange-400 text-[10px] font-black uppercase tracking-widest">{slide.tag}</span>
                       </motion.div>
-                      
-                      <motion.h2 
+
+                      <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         className="text-white text-3xl md:text-5xl font-black leading-tight"
                       >
                         {slide.title}
                       </motion.h2>
-                      
-                      <motion.p 
+
+                      <motion.p
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
                         className="text-slate-300 text-sm md:text-lg font-medium max-w-md"
@@ -141,8 +142,8 @@ export default function SmartDashboard() {
 
         {/* --- LOGO & HEADER --- */}
         <div className="text-center">
-          <motion.div 
-            initial={{ scale: 0.9 }} 
+          <motion.div
+            initial={{ scale: 0.9 }}
             animate={{ scale: 1 }}
             className="inline-flex items-center gap-2 bg-orange-50 px-6 py-2 rounded-full mb-4 shadow-sm"
           >
@@ -179,7 +180,7 @@ export default function SmartDashboard() {
         {selectedCategory && (
           <div className="space-y-8">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 bg-white p-5 rounded-[30px] shadow-sm border border-slate-100">
-              <button 
+              <button
                 onClick={() => { setSelectedCategory(null); setMinPrice(""); setMaxPrice(""); }}
                 className="flex items-center gap-2 text-slate-400 font-black hover:text-orange-500 transition-colors text-[11px] tracking-widest"
               >
@@ -189,9 +190,9 @@ export default function SmartDashboard() {
               <div className="flex items-center gap-4">
                 <div className="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-2xl border border-slate-100 focus-within:border-orange-300 transition-all">
                   <span className="text-[10px] font-black text-orange-500">AZN</span>
-                  <input 
-                    type="number" 
-                    placeholder="Min" 
+                  <input
+                    type="number"
+                    placeholder="Min"
                     value={minPrice}
                     onChange={(e) => setMinPrice(e.target.value)}
                     className="w-16 bg-transparent outline-none text-sm font-black text-slate-800"
@@ -199,9 +200,9 @@ export default function SmartDashboard() {
                 </div>
                 <div className="flex items-center gap-3 bg-slate-50 px-4 py-2.5 rounded-2xl border border-slate-100 focus-within:border-orange-300 transition-all">
                   <span className="text-[10px] font-black text-orange-500 text-right">AZN</span>
-                  <input 
-                    type="number" 
-                    placeholder="Max" 
+                  <input
+                    type="number"
+                    placeholder="Max"
                     value={maxPrice}
                     onChange={(e) => setMaxPrice(e.target.value)}
                     className="w-16 bg-transparent outline-none text-sm font-black text-slate-800"
@@ -235,43 +236,59 @@ function UstaCard({ master }) {
       initial={{ opacity: 0, scale: 0.9 }}
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 0.9 }}
-      className="bg-white rounded-[32px] p-3.5 shadow-sm border border-slate-100 group hover:shadow-2xl hover:shadow-orange-100 transition-all duration-500 flex flex-col"
+      className="bg-white rounded-[32px] p-3.5 shadow-sm border border-slate-100 group hover:shadow-2xl hover:shadow-pink-100/50 hover:border-pink-200 transition-all duration-500 flex flex-col h-full"
     >
+      {/* Şəkil və reytinq */}
       <div className="relative aspect-square rounded-[26px] overflow-hidden mb-4">
-        <img 
-          src={master?.profilimage} 
-          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" 
-          alt="" 
-        />
-        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm border border-orange-50">
+        <Link to={`/masters/${master?.id}`} className=" cursor-pointer">
+          <img
+            src={master?.profilimage}
+            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000"
+            alt=""
+          />
+        </Link>
+        <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-xl flex items-center gap-1.5 shadow-sm border border-pink-100">
           <Star size={11} className="text-orange-500 fill-orange-500" />
           <span className="text-[11px] font-black text-slate-800">{master?.rating || "5.0"}</span>
         </div>
       </div>
 
-      <div className="px-2 flex-1">
-        <h3 className="text-[14px] font-black text-orange-600 leading-tight mb-1 truncate ">
-          {master?.fullname}
-        </h3>
-        <div className="flex items-center gap-1 text-slate-400 text-[9px] font-bold uppercase tracking-tight mb-4">
-          <MapPin size={11} className="text-orange-400" /> {master?.address || "BAKI"}
+      {/* Əsas məlumatlar */}
+      <div className="px-2 flex-1 mb-4">
+        <Link to={`/masters/${master?.id}`} className=" cursor-pointer">
+          <h3 className="text-[14px] font-black text-orange-600 truncate">
+            {master?.fullname}
+          </h3>
+        </Link>
+
+        {/* Adres */}
+        <div className="flex items-center gap-1 text-slate-400 text-[9px] font-bold uppercase tracking-tight mb-3">
+          <MapPin size={11} className="text-orange-400" />
+          <span>{master?.address || "BAKI"}</span>
+        </div>
+
+        {/* Saatlıq qiymət - ADRESİN ALTINDA */}
+        <div className="bg-gradient-to-r from-orange-50 to-rose-50 p-2.5 rounded-xl border border-orange-100 mb-4">
+          <div className="flex items-center justify-between">
+            <div className="flex flex-col">
+              <span className="text-[8px] text-slate-500 font-black uppercase tracking-wider">SAATLIQ</span>
+              <span className="text-lg font-black text-orange-600 leading-none mt-0.5">
+                {master?.price || "25"} ₼
+              </span>
+            </div>
+
+          </div>
         </div>
       </div>
 
-      <div className="bg-slate-50 p-3 rounded-[22px] flex justify-between items-center group-hover:bg-orange-500 transition-all duration-500 mt-auto">
-        <div className="flex flex-col">
-          <span className="text-[8px] text-slate-400 font-black uppercase group-hover:text-orange-100">SAATLIQ</span>
-          <span className="text-[14px] font-black text-slate-900 group-hover:text-white leading-none">
-            {master?.price} 
-          </span>
-        </div>
-        <button className="bg-white text-orange-600 p-2 rounded-xl shadow-sm group-hover:scale-110 transition-transform">
+      {/* MÜRACİƏT ET BUTONU - AŞAĞIDA */}
+      <Link to={`/masters/${master?.id}`} className="mt-auto">
+        <div className="bg-[#FF7A1C] h-[40px] hover:bg-orange-600 text-white p-3 rounded-3xl flex items-center justify-center gap-2 transition-all">
+          <span className="font-bold text-sm uppercase tracking-wide">Müraciət et</span>
           <ChevronRight size={16} />
-        </button>
-      </div>
+        </div>
+      </Link>
     </motion.div>
+    
   );
 }
-const goToProfile = () => {
-  navigate(`/profile/${master.id}`);
-};

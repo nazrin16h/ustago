@@ -6,12 +6,15 @@ import {
   ClipboardList
 } from 'lucide-react';
 import HistoryModal from './HistoryModal';
+import { useNavigate, useParams } from 'react-router-dom'; // 1. Bunu import et
+
 
 const Profile = () => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showAllReviews, setShowAllReviews] = useState(false);
   const [isHistoryOpen, setIsHistoryOpen] = useState(false);
+  const navigate = useNavigate(); // 2. Funksiyanı təyin et
 
   const [historyData] = useState([
     { id: 1, title: "Mətbəx kranının təmiri", startDate: "25 Aprel", endDate: "25 Aprel", status: "Tamamlandı" },
@@ -29,6 +32,8 @@ const Profile = () => {
     { id: 7, name: "Furkan E.", rating: 5, text: "Problemi kökündən həll etdi.", date: "1 həftə əvvəl" }
   ]);
 
+  const { id } = useParams(); // 2. URL-dəki ID-ni götür (məsələn: /masters/5)
+
   const API_URL = "https://69bfc34f72ca04f3bcb92a0d.mockapi.io/category";
 
   useEffect(() => {
@@ -36,8 +41,17 @@ const Profile = () => {
       try {
         const response = await fetch(API_URL);
         const data = await response.json();
-        if (data && Array.isArray(data) && data.length > 0) {
-          setUser(data[0]);
+
+        if (data && Array.isArray(data)) {
+          // 3. Massiv içində ID-si URL-dəki ID ilə eyni olan ustanı tapırıq
+          // Diqqət: id gələn datada string və ya number ola bilər, ona görə == istifadə etmək daha təhlükəsizdir
+          const foundUser = data.find(item => item.id == id);
+
+          if (foundUser) {
+            setUser(foundUser);
+          } else {
+            setUser(null); // Usta tapılmadıqda
+          }
         }
       } catch (err) {
         console.error("Xəta:", err);
@@ -46,7 +60,7 @@ const Profile = () => {
       }
     };
     getData();
-  }, []);
+  }, [id]); // id dəyişəndə yenidən işləsin
 
   // --- FUNKSİYALAR ---
 
@@ -95,9 +109,12 @@ const Profile = () => {
         <img src={user.portfolioimage1} className="w-full h-full object-cover opacity-40" alt="Background" />
         <div className="absolute inset-0 bg-gradient-to-t from-[#f8fafc] to-transparent"></div>
         <div className="absolute top-6 left-4 right-4 max-w-6xl mx-auto flex justify-between items-center">
-          <button className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg">
-            <ChevronLeft size={24} />
-          </button>
+          <button 
+      onClick={() => navigate(-1)} // 3. -1 yazdıqda bir addım geriyə qayıdır
+      className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg hover:bg-white/30 transition-all"
+    >
+      <ChevronLeft size={24} />
+    </button>
           <div className="flex gap-2">
             <button
               onClick={() => setIsHistoryOpen(true)}
@@ -106,7 +123,7 @@ const Profile = () => {
               <ClipboardList size={18} />
               <span className="font-bold text-sm">Ustanın sifarişləri</span>
             </button>
-            <button 
+            <button
               onClick={handleShare}
               className="p-2 bg-white/20 backdrop-blur-md rounded-full text-white border border-white/20 shadow-lg hover:bg-white/30"
             >
@@ -118,7 +135,7 @@ const Profile = () => {
 
       <main className="max-w-6xl mx-auto px-4 -mt-20 relative z-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          
+
           <div className="lg:col-span-4 space-y-6">
             <div className="bg-white rounded-[2.5rem] shadow-sm border border-slate-100 p-8 text-center relative overflow-hidden">
               <div className="absolute top-4 right-4 flex items-center gap-1.5 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100">
@@ -145,7 +162,7 @@ const Profile = () => {
                 <div className="text-center">
                   <p className="text-lg font-black ">{user.rating}
                     <span className='text-orange-600'>★</span>
-                     </p>
+                  </p>
                   <p className="text-[8px] text-slate-400 font-bold uppercase">Ulduz</p>
                 </div>
                 <div className="text-center border-x border-slate-200">
@@ -159,13 +176,13 @@ const Profile = () => {
               </div>
 
               <div className="mt-8 space-y-3">
-                <button 
+                <button
                   onClick={handleCall}
                   className="w-full bg-slate-900 hover:bg-black text-white py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all active:scale-95 shadow-lg shadow-slate-200"
                 >
                   <Phone size={18} /> Zəng Et
                 </button>
-                <button 
+                <button
                   onClick={handleWhatsApp}
                   className="w-full bg-white border border-slate-200 shadow-xl hover:shadow-orange-200 text-slate-900 py-4 rounded-2xl font-bold flex items-center justify-center gap-3 transition-all"
                 >
@@ -173,12 +190,12 @@ const Profile = () => {
                 </button>
               </div>
             </div>
-               <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-[2rem] p-6 text-white shadow-xl shadow-orange-100">
-                <p className="text-orange-100 text-[10px] font-bold uppercase tracking-widest mb-1">Xidmət haqqı</p>
-                <p className="text-3xl font-black">{user.price}</p>
-              </div>
+            <div className="bg-gradient-to-br from-orange-500 to-orange-600 rounded-[2rem] p-6 text-white shadow-xl shadow-orange-100">
+              <p className="text-orange-100 text-[10px] font-bold uppercase tracking-widest mb-1">Xidmət haqqı</p>
+              <p className="text-3xl font-black">{user.price}</p>
+            </div>
 
-          <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6">
+            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-6">
               <h3 className="text-lg font-black uppercase mb-4">Rəylər ({reviews.length})</h3>
               <div className="space-y-4">
                 {reviews.slice(0, showAllReviews ? reviews.length : 3).map((rev) => (
@@ -204,38 +221,38 @@ const Profile = () => {
             </div>
 
             <div className="lg:col-span-8 space-y-6">
-            {/* İş Nümunələri (Hover Effektli) */}
-            <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
-              <h3 className="text-xl font-black mb-6">İş Nümunələri</h3>
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
-                  <img src={user.portfolioimage1} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 1" />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white font-black text-lg uppercase bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">Əvvəl</span>
+              {/* İş Nümunələri (Hover Effektli) */}
+              <div className="bg-white rounded-[2rem] shadow-sm border border-slate-100 p-8">
+                <h3 className="text-xl font-black mb-6">İş Nümunələri</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                    <img src={user.portfolioimage1} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 1" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white font-black text-lg uppercase bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">Əvvəl</span>
+                    </div>
                   </div>
-                </div>
-                
-                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
-                  <img src={user.portfolioimage2} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 2" />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white font-black text-lg uppercase bg-orange-500/80 backdrop-blur-sm px-4 py-2 rounded-xl">Sonra</span>
+
+                  <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                    <img src={user.portfolioimage2} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 2" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white font-black text-lg uppercase bg-orange-500/80 backdrop-blur-sm px-4 py-2 rounded-xl">Sonra</span>
+                    </div>
                   </div>
-                </div>
-                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
-                  <img src={user.portfolioimage2} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 2" />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white font-black text-lg uppercase bg-orange-500/80 backdrop-blur-sm px-4 py-2 rounded-xl">Sonra</span>
+                  <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                    <img src={user.portfolioimage2} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 2" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white font-black text-lg uppercase bg-orange-500/80 backdrop-blur-sm px-4 py-2 rounded-xl">Sonra</span>
+                    </div>
                   </div>
-                </div>
-                <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
-                  <img src={user.portfolioimage1} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 1" />
-                  <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <span className="text-white font-black text-lg uppercase bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">Əvvəl</span>
+                  <div className="relative group overflow-hidden rounded-2xl cursor-pointer">
+                    <img src={user.portfolioimage1} className="w-full h-48 object-cover transition-all duration-500 group-hover:scale-105 group-hover:blur-[2px]" alt="Work 1" />
+                    <div className="absolute inset-0 bg-black/40 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      <span className="text-white font-black text-lg uppercase bg-white/20 backdrop-blur-sm px-4 py-2 rounded-xl">Əvvəl</span>
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </main>
