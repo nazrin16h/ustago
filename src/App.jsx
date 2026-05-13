@@ -6,6 +6,7 @@ import Home from './pages/Home';
 import Profile from './pages/Profile';
 import Checkout from './pages/Checkout';
 import AddElan from './pages/AddElan';
+import Footer from './pages/Footer';
 
 function App() {
   return (
@@ -42,7 +43,7 @@ function App() {
         <main className="flex-grow pb-24 md:pb-8">
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
+          <Route path="/profile" element={<Profile />} />
             <Route path="/checkout" element={<Checkout />} />
             <Route path="/add-elan" element={<AddElan />} />
           </Routes>
@@ -77,6 +78,7 @@ function App() {
           </NavLink>
 
         </nav>
+        <Footer/>
       </div>
     </Router>
   );

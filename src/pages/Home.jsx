@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useNavigate } from "react-router-dom";
 import { 
   Wrench, Zap, Grid3X3, Paintbrush2, Armchair, Wind, Layers, 
   Star, ChevronRight, MapPin, Sparkles, ArrowLeft, Filter, 
@@ -227,6 +228,7 @@ export default function SmartDashboard() {
 }
 
 function UstaCard({ master }) {
+  const navigate = useNavigate();
   return (
     <motion.div
       layout
@@ -270,3 +272,6 @@ function UstaCard({ master }) {
     </motion.div>
   );
 }
+const goToProfile = () => {
+  navigate(`/profile/${master.id}`);
+};
