@@ -14,7 +14,7 @@ import "swiper/css/pagination";
 import "swiper/css/effect-fade";
 
 import { getMasters } from '../../javascript/panel';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 
 // Kateqoriya Məlumatları (Yenilənmiş Santexnika ikonu ilə)

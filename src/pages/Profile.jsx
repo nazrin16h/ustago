@@ -36,31 +36,59 @@ const Profile = () => {
 
   const API_URL = "https://69bfc34f72ca04f3bcb92a0d.mockapi.io/category";
 
-  useEffect(() => {
-    const getData = async () => {
-      try {
-        const response = await fetch(API_URL);
-        const data = await response.json();
+ useEffect(() => {
+  const getData = async () => {
+    try {
+      setLoading(true); // Hər sorğuda loader aktiv olsun
+      const response = await fetch(API_URL);
+      const data = await response.json();
 
-        if (data && Array.isArray(data)) {
-          // 3. Massiv içində ID-si URL-dəki ID ilə eyni olan ustanı tapırıq
-          // Diqqət: id gələn datada string və ya number ola bilər, ona görə == istifadə etmək daha təhlükəsizdir
-          const foundUser = data.find(item => item.id == id);
+      if (data && Array.isArray(data)) {
+        let targetId = id;
 
-          if (foundUser) {
-            setUser(foundUser);
-          } else {
-            setUser(null); // Usta tapılmadıqda
+        // --- ƏSAS MƏNTİQ BURADADIR ---
+        // Əgər URL-də id yoxdursa (yəni sırf /profile linkindəyiksə):
+        if (!targetId) {
+          // Variant A: Əgər login sisteminiz varsa, localStorage-dan daxil olan şəxsin id-sini götürürük
+          // targetId = localStorage.getItem("userId"); 
+
+          // Variant B: Hələlik test xətrinə, API-dakı 1 nömrəli istifadəçini/ustanı öz profilimiz kimi göstərək
+          targetId = "1"; 
+        }
+
+        let foundUser = null;
+
+        // 1. Birbaşa massiv daxilində axtarış (Əgər data birbaşa ustaların siyahısıdırsa)
+        foundUser = data.find(item => item.id == targetId);
+
+        // 2. Kateqoriyalar daxilində axtarış (Əgər data kateqoriya -> masters strukturundadırsa)
+        if (!foundUser) {
+          for (const item of data) {
+            const mastersList = item.masters || item.users;
+            if (mastersList && Array.isArray(mastersList)) {
+              foundUser = mastersList.find(m => m.id == targetId);
+              if (foundUser) break; // Tapıldısa dövrü dayandır
+            }
           }
         }
-      } catch (err) {
-        console.error("Xəta:", err);
-      } finally {
-        setLoading(false);
+
+        // Tapılan məlumatı state-ə ötürürük
+        if (foundUser) {
+          setUser(foundUser);
+        } else {
+          setUser(null); // API-da bu ID-də usta/istifadəçi yoxdursa
+        }
       }
-    };
-    getData();
-  }, [id]); // id dəyişəndə yenidən işləsin
+    } catch (err) {
+      console.error("Məlumat gətirilərkən xəta baş verdi:", err);
+      setUser(null);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  getData();
+}, [id]); // id hər dəfə dəyişəndə (və ya /profile-a keçəndə) yenidən işləsin
 
   // --- FUNKSİYALAR ---
 

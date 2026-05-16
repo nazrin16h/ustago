@@ -78,17 +78,18 @@ function AppContent() {
         </div>
       </header>
 
-        {/* --- ROUTES --- */}
-        <main className="flex-grow pb-24 md:pb-8">
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/profile" element={<Profile />} />
-            <Route path="/checkout" element={<Checkout />} />
-            <Route path="/add-elan" element={<AddElan />} />
-
-            <Route path="/masters/:id" element={<Profile />} />
-          </Routes>
-        </main>
+      {/* --- ROUTES --- */}
+      <main className="flex-grow pb-24 md:pb-8">
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/profile" element={<Profile />} />
+          <Route path="/checkout" element={<Checkout />} />
+          <Route path="/add-elan" element={<AddElan />} />
+          <Route path="/masters/:id" element={<Profile />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </main>
 
       {/* --- MOBİL ÜÇÜN ADD ELAN DÜYMƏSİ --- */}
       {/* Əgər login/signup səhifəsindəyiksə, bu düyməni də gizlədə bilərik */}
